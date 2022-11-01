@@ -4,6 +4,8 @@ const relegatedButton = document.querySelector('.relegate')
 const showQualifiedButton = document.querySelector('.show-qualified')
 const sortButton = document.querySelector('.sort')
 const doublePointsButton = document.querySelector('.double')
+const add3TeamsButton = document.querySelector('.add-3-teams')
+const firstTeamButton = document.querySelector('.first-team')
 
 let data = []
 console.log(data)
@@ -30,9 +32,24 @@ getRandomTeam()
 addTeamButton.addEventListener('click', getRandomTeam)
 const addData = (object) => {
   data.push(object)
-  updateDOM()
+  data = data.filter((element, index) => {
+    return data.indexOf(element) === index;
+  });
+  update()
 }
 
+// add 3 team
+let threeData = []
+const get3Teams = () => {
+  getRandomTeam()
+  getRandomTeam()
+  getRandomTeam()
+  const addData = (object) => {
+    threeData.push(object)
+    update()
+    data = data.concat(threeData)
+  }}
+add3TeamsButton.addEventListener('click', get3Teams)
 
 
 
@@ -41,7 +58,7 @@ const addData = (object) => {
 
 const showRelegated = () => {
   data = data.filter((team) => team.points <= 49)
-  updateDOM()
+  update()
 }
 relegatedButton.addEventListener('click', showRelegated)
 
@@ -52,8 +69,8 @@ relegatedButton.addEventListener('click', showRelegated)
 // sort teams by most points
 const sortByPoints = () => {
   data.sort((a, b) => b.points - a.points)
-  updateDOM()
-}
+  update()
+};
 sortButton.addEventListener('click', sortByPoints)
 
 
@@ -76,8 +93,8 @@ showQualifiedButton.addEventListener('click', showQualified)
 
 
 
-//update DOM -- NOT MY OWN CODE AT ALL
-const updateDOM = (providedData = data) => {
+//update DOM -- NOT MY OWN
+const update = (providedData = data) => {
   // clear main div
   console.log(data)
   main.innerHTML = '<h2><strong>Team</strong> Points</h2>';
@@ -96,10 +113,19 @@ const doublePoints = () => {
     return { name: team.name, points: team.points * 2 };
   });
 
-  updateDOM()
+  update()
 }
 doublePointsButton.addEventListener('click', doublePoints)
 
+// best team
+const findFirstTeam = () => {
+  sortByPoints()
+  const firstTeam = (element) => element.points > 49
+  data = data.findIndex(firstTeam);
+
+  update()
+}
+firstTeamButton.addEventListener('click', findFirstTeam)
 
 
 
