@@ -82,7 +82,7 @@ sortButton.addEventListener('click', sortByPoints)
 // filter only qualified
 const showQualified = () => {
   data = data.filter((team) => team.points > 49)
-  updateDOM()
+  update()
 }
 
 
